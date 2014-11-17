@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -13,13 +15,13 @@ import android.util.TypedValue;
 import android.view.View;
 
 /**
- * An indicator of progress, similar to Android's ProgressBar.
- * Can be used in 'spin mode' or 'increment mode'
+ * A Material style progress wheel, compatible up to 2.2.
+ * Todd Davies' Progress Wheel https://github.com/Todd-Davies/ProgressWheel
  *
- * @author Todd Davies
+ * @author Nico Hormazábal
  *         <p/>
- *         Licensed under the Creative Commons Attribution 3.0 license see:
- *         http://creativecommons.org/licenses/by/3.0/
+ *         Licensed under the Apache License 2.0 license see:
+ *         http://www.apache.org/licenses/LICENSE-2.0
  */
 public class ProgressWheel extends View {
     private static final String TAG = ProgressWheel.class.getSimpleName();
@@ -52,8 +54,8 @@ public class ProgressWheel extends View {
     private RectF circleBounds = new RectF();
 
     //Animation
-    //The amount of full circles per second
-    private float spinSpeed = 0.75f;
+    //The amount of degrees per second
+    private float spinSpeed = 270.0f;
     // The last time the spinner was animated
     private long lastTimeAnimated = 0;
 
@@ -209,7 +211,8 @@ public class ProgressWheel extends View {
 
         rimWidth = (int) a.getDimension(R.styleable.ProgressWheel_rimWidth, rimWidth);
 
-        spinSpeed = a.getFloat(R.styleable.ProgressWheel_spinSpeed, spinSpeed);
+        float baseSpinSpeed = a.getFloat(R.styleable.ProgressWheel_spinSpeed, spinSpeed / 360.0f);
+        spinSpeed = baseSpinSpeed * 360;
 
         barSpinCycleTime = a.getInt(R.styleable.ProgressWheel_barSpinCycleTime, (int) barSpinCycleTime);
 
@@ -241,7 +244,7 @@ public class ProgressWheel extends View {
             mustInvalidate = true;
 
             long deltaTime = (SystemClock.uptimeMillis() - lastTimeAnimated);
-            float deltaNormalized = deltaTime * spinSpeed * 360.0f / 1000.0f;
+            float deltaNormalized = deltaTime * spinSpeed / 1000.0f;
 
             updateBarLength(deltaTime);
 
@@ -262,7 +265,7 @@ public class ProgressWheel extends View {
                 mustInvalidate = true;
 
                 float deltaTime = (float) (SystemClock.uptimeMillis() - lastTimeAnimated) / 1000;
-                float deltaNormalized = deltaTime * spinSpeed * 360.0f;
+                float deltaNormalized = deltaTime * spinSpeed;
 
                 mProgress = Math.min(mProgress + deltaNormalized, mTargetProgress);
                 lastTimeAnimated = SystemClock.uptimeMillis();
@@ -343,12 +346,20 @@ public class ProgressWheel extends View {
     }
 
     /**
-     * Set the progress to a specific value
+     * Set the progress to a specific value,
+     * the bar will smoothly animate until that value
+     * @param progress the progress between 0 and 1
      */
     public void setProgress(float progress) {
         if (isSpinning) {
             mProgress = 0.0f;
             isSpinning = false;
+        }
+
+        if(progress > 1.0f) {
+            progress -= 1.0f;
+        } else if(progress < 0) {
+            progress = 0;
         }
 
         if (progress == mTargetProgress) {
@@ -367,58 +378,250 @@ public class ProgressWheel extends View {
         invalidate();
     }
 
-    public float getProgress() {
-        return mProgress / 360.0f;
+    /**
+     * Set the progress to a specific value,
+     * the bar will be set instantly to that value
+     * @param progress the progress between 0 and 1
+     */
+    public void setInstantProgress(float progress) {
+        if (isSpinning) {
+            mProgress = 0.0f;
+            isSpinning = false;
+        }
+
+        if(progress > 1.0f) {
+            progress -= 1.0f;
+        } else if(progress < 0) {
+            progress = 0;
+        }
+
+        if (progress == mTargetProgress) {
+            return;
+        }
+
+        mTargetProgress = Math.min(progress * 360.0f, 360.0f);
+        mProgress = mTargetProgress;
+        lastTimeAnimated = SystemClock.uptimeMillis();
+        invalidate();
+    }
+
+    // Great way to save a view's state http://stackoverflow.com/a/7089687/1991053
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+
+        WheelSavedState ss = new WheelSavedState(superState);
+
+        // We save everything that can be changed at runtime
+        ss.mProgress = this.mProgress;
+        ss.mTargetProgress = this.mTargetProgress;
+        ss.isSpinning = this.isSpinning;
+        ss.spinSpeed = this.spinSpeed;
+        ss.barWidth = this.barWidth;
+        ss.barColor = this.barColor;
+        ss.rimWidth = this.rimWidth;
+        ss.rimColor = this.rimColor;
+        ss.circleRadius = this.circleRadius;
+
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if(!(state instanceof WheelSavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        WheelSavedState ss = (WheelSavedState)state;
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        this.mProgress = ss.mProgress;
+        this.mTargetProgress = ss.mTargetProgress;
+        this.isSpinning = ss.isSpinning;
+        this.spinSpeed = ss.spinSpeed;
+        this.barWidth = ss.barWidth;
+        this.barColor = ss.barColor;
+        this.rimWidth = ss.rimWidth;
+        this.rimColor = ss.rimColor;
+        this.circleRadius = ss.circleRadius;
     }
 
     //----------------------------------
     //Getters + setters
     //----------------------------------
+
+    /**
+     * @return the current progress between 0.0 and 1.0,
+     * if the wheel is indeterminate, then the result is -1
+     */
+    public float getProgress() {
+        return isSpinning ? -1 : mProgress / 360.0f;
+    }
+
+    /**
+     * @return the radius of the wheel in pixels
+     */
     public int getCircleRadius() {
         return circleRadius;
     }
 
+    /**
+     * Sets the radius of the wheel
+     * @param circleRadius the expected radius, in pixels
+     */
     public void setCircleRadius(int circleRadius) {
         this.circleRadius = circleRadius;
+        if (!isSpinning) {
+            invalidate();
+        }
     }
 
+    /**
+     * @return the width of the spinning bar
+     */
     public int getBarWidth() {
         return barWidth;
     }
 
+    /**
+     * Sets the width of the spinning bar
+     * @param barWidth the spinning bar width in pixels
+     */
     public void setBarWidth(int barWidth) {
         this.barWidth = barWidth;
+        if (!isSpinning) {
+            invalidate();
+        }
     }
 
+    /**
+     * @return the color of the spinning bar
+     */
     public int getBarColor() {
         return barColor;
     }
 
+    /**
+     * Sets the color of the spinning bar
+     * @param barColor The spinning bar color
+     */
     public void setBarColor(int barColor) {
         this.barColor = barColor;
+        setupPaints();
+        if (!isSpinning) {
+            invalidate();
+        }
     }
 
+    /**
+     * @return the color of the wheel's contour
+     */
     public int getRimColor() {
         return rimColor;
     }
 
+    /**
+     * Sets the color of the wheel's contour
+     * @param rimColor the color for the wheel
+     */
     public void setRimColor(int rimColor) {
         this.rimColor = rimColor;
+        setupPaints();
+        if (!isSpinning) {
+            invalidate();
+        }
     }
 
+    /**
+     * @return the base spinning speed, in full circle turns per second
+     * (1.0 equals on full turn in one second), this value also is applied for
+     * the smoothness when setting a progress
+     */
     public float getSpinSpeed() {
-        return spinSpeed;
+        return spinSpeed / 360.0f;
     }
 
+    /**
+     * Sets the base spinning speed, in full circle turns per second
+     * (1.0 equals on full turn in one second), this value also is applied for
+     * the smoothness when setting a progress
+     *
+     * @param spinSpeed the desired base speed in full turns per second
+     */
     public void setSpinSpeed(float spinSpeed) {
-        this.spinSpeed = spinSpeed;
+        this.spinSpeed = spinSpeed * 360.0f;
     }
 
+    /**
+     * @return the width of the wheel's contour in pixels
+     */
     public int getRimWidth() {
         return rimWidth;
     }
 
+    /**
+     * Sets the width of the wheel's contour
+     * @param rimWidth the width in pixels
+     */
     public void setRimWidth(int rimWidth) {
         this.rimWidth = rimWidth;
+        if (!isSpinning) {
+            invalidate();
+        }
+    }
+
+    static class WheelSavedState extends BaseSavedState {
+        float mProgress;
+        float mTargetProgress;
+        boolean isSpinning;
+        float spinSpeed;
+        int barWidth;
+        int barColor;
+        int rimWidth;
+        int rimColor;
+        int circleRadius;
+
+        WheelSavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private WheelSavedState(Parcel in) {
+            super(in);
+            this.mProgress = in.readFloat();
+            this.mTargetProgress = in.readFloat();
+            this.isSpinning = in.readByte() != 0;
+            this.spinSpeed = in.readFloat();
+            this.barWidth = in.readInt();
+            this.barColor = in.readInt();
+            this.rimWidth = in.readInt();
+            this.rimColor = in.readInt();
+            this.circleRadius = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeFloat(this.mProgress);
+            out.writeFloat(this.mTargetProgress);
+            out.writeByte((byte) (isSpinning ? 1 : 0));
+            out.writeFloat(this.spinSpeed);
+            out.writeInt(this.barWidth);
+            out.writeInt(this.barColor);
+            out.writeInt(this.rimWidth);
+            out.writeInt(this.rimColor);
+            out.writeInt(this.circleRadius);
+        }
+
+        //required field that makes Parcelables from a Parcel
+        public static final Parcelable.Creator<WheelSavedState> CREATOR =
+                new Parcelable.Creator<WheelSavedState>() {
+                    public WheelSavedState createFromParcel(Parcel in) {
+                        return new WheelSavedState(in);
+                    }
+                    public WheelSavedState[] newArray(int size) {
+                        return new WheelSavedState[size];
+                    }
+                };
     }
 }
