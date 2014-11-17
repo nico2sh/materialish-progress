@@ -44,6 +44,24 @@ Sets the value, and the wheel will smoothly animate to that value. The speed of 
 
 ```progressWheel.setProgressImmediate(float value)```
 
+### Fill radius
+
+In case you want the spinning wheel to fill the whole layout instead of having a fixed size, you can use ```fillRadius```.
+
+```xml
+<com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/progress_wheel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        wheel:barColor="#5588FF"
+        wheel:progressIndeterminate="true"
+        wheel:fillRadius="true" />
+```
+
+This way, the wheel will be as big as the parent layout. Be warned though, if the parentlayout is not square, the wheel will become an oval.
+
 License
 -------
 
