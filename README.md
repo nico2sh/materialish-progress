@@ -44,6 +44,8 @@ Sets the value, and the wheel will smoothly animate to that value. The speed of 
 
 ```progressWheel.setProgressImmediate(float value)```
 
+Sets the value, and the wheel will instantly move to that value
+
 ### Fill radius
 
 In case you want the spinning wheel to fill the whole layout instead of having a fixed size, you can use ```fillRadius```.
@@ -78,5 +80,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-Sets the value, and the wheel will instantly move to that value
