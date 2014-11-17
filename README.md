@@ -6,6 +6,10 @@ I needed to keep a consistent (or as close as possible) look in an app across al
 
 So I created this. This view uses [Progress Wheel](https://github.com/Todd-Davies/ProgressWheel) as a base, but has been almost completely rewritten (the original view uses handlers for updating the wheel).
 
+This is how it looks:
+
+![spinning wheel](spinningwheel.gif)
+
 ## Usage
 
 You can create your own progress wheel in xml like this (remeber to add ```xmlns:wheel="http://schemas.android.com/apk/res-auto"```):
