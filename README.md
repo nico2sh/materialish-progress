@@ -10,6 +10,12 @@ This is how it looks:
 
 ![spinning wheel](spinningwheel.gif)
 
+## Download
+
+You can copy the ProgressWheel.java (in the library module) and the attrs.xml content into your project. Or you can get the binaries from Maven central by adding in your build.gradle dependencies:
+
+```compile 'com.pnikosis:materialish-progress:1.0'```
+
 ## Usage
 
 You can create your own progress wheel in xml like this (remeber to add ```xmlns:wheel="http://schemas.android.com/apk/res-auto"```):
@@ -34,6 +40,8 @@ wheel.setBarColor(Color.BLUE);
 
 ```
 
+### Indeterminate wheel
+
 For making the wheel indeterminate, just call the ```spin()``` method. If you set a progress value, the whell will stop spinning.
 
 You have two methods for setting the progress:
@@ -44,7 +52,9 @@ Sets the value, and the wheel will smoothly animate to that value. The speed of 
 
 ```progressWheel.setProgressImmediate(float value)```
 
-Sets the value, and the wheel will instantly move to that value
+Sets the value, and the wheel will instantly move to that value.
+
+You can change other wheel properties such as the progress bar color, the wheel's background or the wheel's size and width.
 
 ### Fill radius
 
@@ -62,7 +72,21 @@ In case you want the spinning wheel to fill the whole layout instead of having a
         wheel:fillRadius="true" />
 ```
 
-This way, the wheel will be as big as the parent layout. Be warned though, if the parentlayout is not square, the wheel will become an oval.
+This way, the wheel will be as big as the parent layout. Be warned though, if the parentlayout is not square, the wheel will become an oval since the wheel will always adapt to fill the parent view.
+
+### Other options
+
+In the xml definition, besides the ```fillRadius``` property, you can set:
+
+* progressIndeterminate: boolean, if you want the wheel to spin right away.
+* barColor: color, sets the small bar's color (the spinning bar in the indeterminate wheel, or the progress bar)
+* barWidth: dimension, the width of the spinning bar
+* rimColor: color, the wheel's border color
+* rimWidth: dimension, the wheel's width (not the bar)
+* spinSpeed: float, the base speed for the bar in indeterminate mode, and the animation speed when setting a value on progress. The speed is in full turns per second, this means that if you set speed as 1.0, means that the bar will take one second to do a full turn.
+* barSpinCycleTime: integer, the time in milliseconds the indeterminate progress animation takes to complete (extending and shrinking the bar while spinning)
+* circleRadius: dimension, the radius of the progress wheel, it will be ignored if you set fillRadius to true
+* fillRadius: boolean, set to true if you want the progress wheel to fill the whole layout
 
 License
 -------
