@@ -26,21 +26,23 @@ import android.view.View;
 public class ProgressWheel extends View {
     private static final String TAG = ProgressWheel.class.getSimpleName();
 
-    //Sizes (with defaults)
-    private int circleRadius = 80;
+    //Sizes (with defaults in DP)
+    private int circleRadius = 28;
+    private int barWidth = 4;
+    private int rimWidth = 4;
+
+    private final int barLength = 16;
+    private final int barMaxLength = 270;
+
     private boolean fillRadius = false;
 
-    private final int barLength = 40;
-    private final int barMaxLength = 270;
     private double timeStartGrowing = 0;
-    private double barSpinCycleTime = 1000;
+    private double barSpinCycleTime = 460;
     private float barExtraLength = 0;
     private boolean barGrowingFromFront = true;
 
     private long pausedTimeWithoutGrowing = 0;
-    private final long pauseGrowingTime = 300;
-    private int barWidth = 5;
-    private int rimWidth = 5;
+    private final long pauseGrowingTime = 200;
 
     //Colors (with defaults)
     private int barColor = 0xAA000000;
@@ -55,7 +57,7 @@ public class ProgressWheel extends View {
 
     //Animation
     //The amount of degrees per second
-    private float spinSpeed = 270.0f;
+    private float spinSpeed = 230.0f;
     // The last time the spinner was animated
     private long lastTimeAnimated = 0;
 
@@ -199,9 +201,11 @@ public class ProgressWheel extends View {
      * @param a the attributes to parse
      */
     private void parseAttributes(TypedArray a) {
+        // We transform the default values from DIP to pixels
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
         barWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, barWidth, metrics);
         rimWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rimWidth, metrics);
+        circleRadius = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, circleRadius, metrics);
 
         circleRadius = (int) a.getDimension(R.styleable.ProgressWheel_circleRadius, circleRadius);
 
@@ -287,10 +291,9 @@ public class ProgressWheel extends View {
                 // We completed a size change cycle
                 // (growing or shrinking)
                 timeStartGrowing -= barSpinCycleTime;
-                timeStartGrowing = 0;
-                if(!barGrowingFromFront) {
+                //if(barGrowingFromFront) {
                     pausedTimeWithoutGrowing = 0;
-                }
+                //}
                 barGrowingFromFront = !barGrowingFromFront;
             }
 

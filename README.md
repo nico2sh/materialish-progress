@@ -42,7 +42,7 @@ wheel.setBarColor(Color.BLUE);
 
 ### Indeterminate wheel
 
-For making the wheel indeterminate, just call the ```spin()``` method. If you set a progress value, the whell will stop spinning.
+For making the wheel indeterminate, just call the ```spin()``` method. If you set a progress value, the wheel will stop spinning.
 
 You have two methods for setting the progress:
 
@@ -50,7 +50,7 @@ You have two methods for setting the progress:
 
 Sets the value, and the wheel will smoothly animate to that value. The speed of the animation is defined by the spinSpeed (can be set with ```setSpinSpeed```, which number is the number of full turns per second)
 
-```progressWheel.setProgressImmediate(float value)```
+```progressWheel.setInstantProgress(float value)```
 
 Sets the value, and the wheel will instantly move to that value.
 

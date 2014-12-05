@@ -89,5 +89,22 @@
         wheel:barColor="#5588FF"
         wheel:progressIndeterminate="true" />
 
+    <TextView
+        android:id="@+id/label_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_progressbar"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/progress_wheel"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/label_default" />
+
 </RelativeLayout>
 
