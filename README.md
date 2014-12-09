@@ -101,6 +101,7 @@ In the xml definition, besides the ```fillRadius``` property, you can set:
 
 * 1.0 Initial release
 * 1.1 The default speed is closer to the default progress wheel in Lollipop. Removed unused icons.
+* 1.2 Interpolated determinate progress, a new option to set a linear progress (which was de default before)
 
 License
 -------
