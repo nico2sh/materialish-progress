@@ -8,6 +8,7 @@
     <string name="option_wheel_color">Wheel color:</string>
     <string-array name="progress_value_options">
         <item>Indeterminate</item>
+        <item>0%</item>
         <item>10%</item>
         <item>25%</item>
         <item>50%</item>

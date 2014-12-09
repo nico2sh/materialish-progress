@@ -58,8 +58,11 @@ public class ProgressWheel extends View {
     //Animation
     //The amount of degrees per second
     private float spinSpeed = 230.0f;
+    //private float spinSpeed = 120.0f;
     // The last time the spinner was animated
     private long lastTimeAnimated = 0;
+
+    private boolean linearProgress;
 
     private float mProgress = 0.0f;
     private float mTargetProgress = 0.0f;
@@ -224,6 +227,8 @@ public class ProgressWheel extends View {
 
         rimColor = a.getColor(R.styleable.ProgressWheel_rimColor, rimColor);
 
+        linearProgress = a.getBoolean(R.styleable.ProgressWheel_linearProgress, false);
+
         if (a.getBoolean(R.styleable.ProgressWheel_progressIndeterminate, false)) {
             spin();
         }
@@ -275,7 +280,15 @@ public class ProgressWheel extends View {
                 lastTimeAnimated = SystemClock.uptimeMillis();
             }
 
-            canvas.drawArc(circleBounds, -90, mProgress, false, barPaint);
+            float offset = 0.0f;
+            float progress = mProgress;
+            if(!linearProgress) {
+                float factor = 2.0f;
+                offset = (float) (1.0f - Math.pow(1.0f - mProgress / 360.0f, 2.0f * factor)) * 360.0f;
+                progress = (float) (1.0f - Math.pow(1.0f - mProgress / 360.0f, factor)) * 360.0f;;
+            }
+
+            canvas.drawArc(circleBounds, offset - 90, progress, false, barPaint);
         }
 
         if (mustInvalidate) {
@@ -425,6 +438,8 @@ public class ProgressWheel extends View {
         ss.rimWidth = this.rimWidth;
         ss.rimColor = this.rimColor;
         ss.circleRadius = this.circleRadius;
+        ss.linearProgress = this.linearProgress;
+        ss.fillRadius = this.fillRadius;
 
         return ss;
     }
@@ -448,6 +463,8 @@ public class ProgressWheel extends View {
         this.rimWidth = ss.rimWidth;
         this.rimColor = ss.rimColor;
         this.circleRadius = ss.circleRadius;
+        this.linearProgress = ss.linearProgress;
+        this.fillRadius = ss.fillRadius;
     }
 
     //----------------------------------
@@ -460,6 +477,17 @@ public class ProgressWheel extends View {
      */
     public float getProgress() {
         return isSpinning ? -1 : mProgress / 360.0f;
+    }
+
+    /**
+     * Sets the determinate progress mode
+     * @param isLinear if the progress should increase linearly
+     */
+    public void setLinearProgress(boolean isLinear) {
+        linearProgress = isLinear;
+        if (!isSpinning) {
+            invalidate();
+        }
     }
 
     /**
@@ -584,6 +612,8 @@ public class ProgressWheel extends View {
         int rimWidth;
         int rimColor;
         int circleRadius;
+        boolean linearProgress;
+        boolean fillRadius;
 
         WheelSavedState(Parcelable superState) {
             super(superState);
@@ -600,6 +630,8 @@ public class ProgressWheel extends View {
             this.rimWidth = in.readInt();
             this.rimColor = in.readInt();
             this.circleRadius = in.readInt();
+            this.linearProgress = in.readByte() != 0;
+            this.fillRadius = in.readByte() != 0;
         }
 
         @Override
@@ -614,6 +646,8 @@ public class ProgressWheel extends View {
             out.writeInt(this.rimWidth);
             out.writeInt(this.rimColor);
             out.writeInt(this.circleRadius);
+            out.writeByte((byte) (linearProgress ? 1 : 0));
+            out.writeByte((byte) (fillRadius ? 1 : 0));
         }
 
         //required field that makes Parcelables from a Parcel

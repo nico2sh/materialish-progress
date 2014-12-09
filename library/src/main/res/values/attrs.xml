@@ -11,6 +11,7 @@
         <attr name="circleRadius" format="dimension" />
         <attr name="fillRadius" format="boolean" />
         <attr name="barWidth" format="dimension" />
+        <attr name="linearProgress" format="boolean" />
     </declare-styleable>
 
 </resources>

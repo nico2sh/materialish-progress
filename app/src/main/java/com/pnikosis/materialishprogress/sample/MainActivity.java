@@ -32,18 +32,21 @@ public class MainActivity extends ActionBarActivity {
                         progressWheel.spin();
                         break;
                     case 1:
-                        progressWheel.setProgress(0.1f);
+                        progressWheel.setProgress(0.0f);
                         break;
                     case 2:
-                        progressWheel.setProgress(0.25f);
+                        progressWheel.setProgress(0.1f);
                         break;
                     case 3:
-                        progressWheel.setProgress(0.5f);
+                        progressWheel.setProgress(0.25f);
                         break;
                     case 4:
-                        progressWheel.setProgress(0.75f);
+                        progressWheel.setProgress(0.5f);
                         break;
                     case 5:
+                        progressWheel.setProgress(0.75f);
+                        break;
+                    case 6:
                         progressWheel.setProgress(1.0f);
                         break;
                 }

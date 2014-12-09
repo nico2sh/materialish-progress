@@ -6,9 +6,17 @@ I needed to keep a consistent (or as close as possible) look in an app across al
 
 So I created this. This view uses [Progress Wheel](https://github.com/Todd-Davies/ProgressWheel) as a base, but has been almost completely rewritten (the original view uses handlers for updating the wheel).
 
-This is how it looks:
+This implementation tries to follow as close as possible the guidelines for the circular progress as [described here](http://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators).
+
+This is how it looks in indeterminate mode (the spinSpeed here is 0.64 which is the default, look below how to change it):
 
 ![spinning wheel](spinningwheel.gif)
+
+And in determinate mode (here the spinSpeed is set to 0.333):
+
+![spinning wheel](spinningwheel_progress.gif)
+
+You can also have a linear determinate progress mode if you don't like the animation.
 
 ## Download
 
@@ -87,6 +95,7 @@ In the xml definition, besides the ```fillRadius``` property, you can set:
 * barSpinCycleTime: integer, the time in milliseconds the indeterminate progress animation takes to complete (extending and shrinking the bar while spinning)
 * circleRadius: dimension, the radius of the progress wheel, it will be ignored if you set fillRadius to true
 * fillRadius: boolean, set to true if you want the progress wheel to fill the whole layout
+* linearProgress: boolean, set to true if you want a linear animation on the determinate progress (instead of the interpolated default one).
 
 License
 -------
