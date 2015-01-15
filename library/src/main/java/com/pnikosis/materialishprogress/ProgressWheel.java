@@ -68,6 +68,8 @@ public class ProgressWheel extends View {
     private float mTargetProgress = 0.0f;
     private boolean isSpinning = false;
 
+    private ProgressCallback callback;
+
     /**
      * The constructor for the ProgressWheel
      *
@@ -210,31 +212,35 @@ public class ProgressWheel extends View {
         rimWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rimWidth, metrics);
         circleRadius = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, circleRadius, metrics);
 
-        circleRadius = (int) a.getDimension(R.styleable.ProgressWheel_circleRadius, circleRadius);
+        circleRadius = (int) a.getDimension(R.styleable.ProgressWheel_matProg_circleRadius, circleRadius);
 
-        fillRadius = a.getBoolean(R.styleable.ProgressWheel_fillRadius, false);
+        fillRadius = a.getBoolean(R.styleable.ProgressWheel_matProg_fillRadius, false);
 
-        barWidth = (int) a.getDimension(R.styleable.ProgressWheel_barWidth, barWidth);
+        barWidth = (int) a.getDimension(R.styleable.ProgressWheel_matProg_barWidth, barWidth);
 
-        rimWidth = (int) a.getDimension(R.styleable.ProgressWheel_rimWidth, rimWidth);
+        rimWidth = (int) a.getDimension(R.styleable.ProgressWheel_matProg_rimWidth, rimWidth);
 
-        float baseSpinSpeed = a.getFloat(R.styleable.ProgressWheel_spinSpeed, spinSpeed / 360.0f);
+        float baseSpinSpeed = a.getFloat(R.styleable.ProgressWheel_matProg_spinSpeed, spinSpeed / 360.0f);
         spinSpeed = baseSpinSpeed * 360;
 
-        barSpinCycleTime = a.getInt(R.styleable.ProgressWheel_barSpinCycleTime, (int) barSpinCycleTime);
+        barSpinCycleTime = a.getInt(R.styleable.ProgressWheel_matProg_barSpinCycleTime, (int) barSpinCycleTime);
 
-        barColor = a.getColor(R.styleable.ProgressWheel_barColor, barColor);
+        barColor = a.getColor(R.styleable.ProgressWheel_matProg_barColor, barColor);
 
-        rimColor = a.getColor(R.styleable.ProgressWheel_rimColor, rimColor);
+        rimColor = a.getColor(R.styleable.ProgressWheel_matProg_rimColor, rimColor);
 
-        linearProgress = a.getBoolean(R.styleable.ProgressWheel_linearProgress, false);
+        linearProgress = a.getBoolean(R.styleable.ProgressWheel_matProg_linearProgress, false);
 
-        if (a.getBoolean(R.styleable.ProgressWheel_progressIndeterminate, false)) {
+        if (a.getBoolean(R.styleable.ProgressWheel_matProg_progressIndeterminate, false)) {
             spin();
         }
 
         // Recycle
         a.recycle();
+    }
+
+    public void setCallback(ProgressCallback progressCallback) {
+        callback = progressCallback;
     }
 
     //----------------------------------
@@ -269,6 +275,8 @@ public class ProgressWheel extends View {
             canvas.drawArc(circleBounds, from, length, false,
                     barPaint);
         } else {
+            float oldProgress = mProgress;
+
             if (mProgress != mTargetProgress) {
                 //We smoothly increase the progress bar
                 mustInvalidate = true;
@@ -278,6 +286,10 @@ public class ProgressWheel extends View {
 
                 mProgress = Math.min(mProgress + deltaNormalized, mTargetProgress);
                 lastTimeAnimated = SystemClock.uptimeMillis();
+            }
+
+            if(oldProgress != mProgress) {
+                runCallback();
             }
 
             float offset = 0.0f;
@@ -293,6 +305,15 @@ public class ProgressWheel extends View {
 
         if (mustInvalidate) {
             invalidate();
+        }
+    }
+
+    @Override
+    protected void onVisibilityChanged(View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+
+        if(visibility == VISIBLE) {
+            lastTimeAnimated = SystemClock.uptimeMillis();
         }
     }
 
@@ -361,6 +382,12 @@ public class ProgressWheel extends View {
         invalidate();
     }
 
+    private void runCallback() {
+        if(callback != null) {
+            callback.onProgressUpdate(mProgress);
+        }
+    }
+
     /**
      * Set the progress to a specific value,
      * the bar will smoothly animate until that value
@@ -370,6 +397,12 @@ public class ProgressWheel extends View {
         if (isSpinning) {
             mProgress = 0.0f;
             isSpinning = false;
+
+            runCallback();
+        } else {
+            if(mProgress != progress) {
+                runCallback();
+            }
         }
 
         if(progress > 1.0f) {
@@ -660,5 +693,9 @@ public class ProgressWheel extends View {
                         return new WheelSavedState[size];
                     }
                 };
+    }
+
+    public interface ProgressCallback {
+        public void onProgressUpdate(float progress);
     }
 }

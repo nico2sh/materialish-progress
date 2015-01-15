@@ -48,6 +48,10 @@ wheel.setBarColor(Color.BLUE);
 
 ```
 
+### Callback
+
+Use ```setCallback(ProgressCallback)``` to assign a callback that will be called each time the progress changes. This way you can update a value on the progress alongside with the progress animation, or execute an action once the progress reaches a certain value.
+
 ### Indeterminate wheel
 
 For making the wheel indeterminate, just call the ```spin()``` method. If you set a progress value, the wheel will stop spinning.
@@ -66,7 +70,7 @@ You can change other wheel properties such as the progress bar color, the wheel'
 
 ### Fill radius
 
-In case you want the spinning wheel to fill the whole layout instead of having a fixed size, you can use ```fillRadius```.
+In case you want the spinning wheel to fill the whole layout instead of having a fixed size, you can use ```matProg_fillRadius```.
 
 ```xml
 <com.pnikosis.materialishprogress.ProgressWheel
@@ -75,9 +79,9 @@ In case you want the spinning wheel to fill the whole layout instead of having a
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        wheel:barColor="#5588FF"
-        wheel:progressIndeterminate="true"
-        wheel:fillRadius="true" />
+        wheel:matProg_barColor="#5588FF"
+        wheel:matProg_progressIndeterminate="true"
+        wheel:matProg_fillRadius="true" />
 ```
 
 This way, the wheel will be as big as the parent layout. Be warned though, if the parentlayout is not square, the wheel will become an oval since the wheel will always adapt to fill the parent view.
@@ -86,22 +90,23 @@ This way, the wheel will be as big as the parent layout. Be warned though, if th
 
 In the xml definition, besides the ```fillRadius``` property, you can set:
 
-* progressIndeterminate: boolean, if you want the wheel to spin right away.
-* barColor: color, sets the small bar's color (the spinning bar in the indeterminate wheel, or the progress bar)
-* barWidth: dimension, the width of the spinning bar
-* rimColor: color, the wheel's border color
-* rimWidth: dimension, the wheel's width (not the bar)
-* spinSpeed: float, the base speed for the bar in indeterminate mode, and the animation speed when setting a value on progress. The speed is in full turns per second, this means that if you set speed as 1.0, means that the bar will take one second to do a full turn.
-* barSpinCycleTime: integer, the time in milliseconds the indeterminate progress animation takes to complete (extending and shrinking the bar while spinning)
-* circleRadius: dimension, the radius of the progress wheel, it will be ignored if you set fillRadius to true
-* fillRadius: boolean, set to true if you want the progress wheel to fill the whole layout
-* linearProgress: boolean, set to true if you want a linear animation on the determinate progress (instead of the interpolated default one).
+* matProg_progressIndeterminate: boolean, if you want the wheel to spin right away.
+* matProg_barColor: color, sets the small bar's color (the spinning bar in the indeterminate wheel, or the progress bar)
+* matProg_barWidth: dimension, the width of the spinning bar
+* matProg_rimColor: color, the wheel's border color
+* matProg_rimWidth: dimension, the wheel's width (not the bar)
+* matProg_spinSpeed: float, the base speed for the bar in indeterminate mode, and the animation speed when setting a value on progress. The speed is in full turns per second, this means that if you set speed as 1.0, means that the bar will take one second to do a full turn.
+* matProg_barSpinCycleTime: integer, the time in milliseconds the indeterminate progress animation takes to complete (extending and shrinking the bar while spinning)
+* matProg_circleRadius: dimension, the radius of the progress wheel, it will be ignored if you set fillRadius to true
+* matProg_fillRadius: boolean, set to true if you want the progress wheel to fill the whole layout
+* matProg_linearProgress: boolean, set to true if you want a linear animation on the determinate progress (instead of the interpolated default one).
 
 ## Versions
 
 * 1.0 Initial release
 * 1.1 The default speed is closer to the default progress wheel in Lollipop. Removed unused icons.
 * 1.2 Interpolated determinate progress, a new option to set a linear progress (which was the default before)
+* 1.3 Added a prefix to the attributes to avoid collisions, new callback called when the progress changes in the determinate wheel.
 
 License
 -------

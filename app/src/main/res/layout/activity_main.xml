@@ -17,30 +17,14 @@
         android:textSize="18dp" />
 
     <LinearLayout
+        android:id="@+id/spinners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/main_text">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/option_progress" />
-
-            <Spinner
-                android:id="@+id/spinner_options"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/progress_value_options" />
-        </LinearLayout>
-
+        android:layout_below="@+id/main_text"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -79,32 +63,83 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <com.pnikosis.materialishprogress.ProgressWheel
         android:id="@+id/progress_wheel"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        wheel:barColor="#5588FF"
-        wheel:progressIndeterminate="true" />
+        android:layout_below="@id/spinners"
+        wheel:matProg_barColor="#5588FF"
+        wheel:matProg_progressIndeterminate="true" />
 
-    <TextView
-        android:id="@+id/label_default"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_progressbar"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/progress_wheel"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/progress_wheel"/>
+        android:orientation="vertical">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/label_default" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/option_progress"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"/>
+
+        <Spinner
+            android:id="@+id/spinner_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/progress_value_options"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/interpolated" />
+
+                <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/interpolated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    wheel:matProg_barColor="#5588FF"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/linear" />
+
+                <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    wheel:matProg_linearProgress="true"
+                    wheel:matProg_barColor="#5588FF"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
 

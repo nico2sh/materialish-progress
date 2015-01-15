@@ -6,8 +6,9 @@
     <string name="option_progress">Progress:</string>
     <string name="option_bar_color">Bar color:</string>
     <string name="option_wheel_color">Wheel color:</string>
+    <string name="interpolated">Interpolated progress:</string>
+    <string name="linear">Linear progress:</string>
     <string-array name="progress_value_options">
-        <item>Indeterminate</item>
         <item>0%</item>
         <item>10%</item>
         <item>25%</item>

@@ -22,6 +22,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         final ProgressWheel progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        final ProgressWheel progressWheelInterpolated = (ProgressWheel) findViewById(R.id.interpolated);
+        final ProgressWheel progressWheelLinear = (ProgressWheel) findViewById(R.id.linear);
 
         Spinner spinnerOptions = (Spinner) findViewById(R.id.spinner_options);
         spinnerOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -29,25 +31,28 @@ public class MainActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch(position) {
                     case 0:
-                        progressWheel.spin();
+                        progressWheelLinear.setProgress(0.0f);
+                        progressWheelInterpolated.setProgress(0.0f);
                         break;
                     case 1:
-                        progressWheel.setProgress(0.0f);
+                        progressWheelLinear.setProgress(0.1f);
+                        progressWheelInterpolated.setProgress(0.1f);
                         break;
                     case 2:
-                        progressWheel.setProgress(0.1f);
+                        progressWheelLinear.setProgress(0.25f);
+                        progressWheelInterpolated.setProgress(0.25f);
                         break;
                     case 3:
-                        progressWheel.setProgress(0.25f);
+                        progressWheelLinear.setProgress(0.5f);
+                        progressWheelInterpolated.setProgress(0.5f);
                         break;
                     case 4:
-                        progressWheel.setProgress(0.5f);
+                        progressWheelLinear.setProgress(0.75f);
+                        progressWheelInterpolated.setProgress(0.75f);
                         break;
                     case 5:
-                        progressWheel.setProgress(0.75f);
-                        break;
-                    case 6:
-                        progressWheel.setProgress(1.0f);
+                        progressWheelLinear.setProgress(1.0f);
+                        progressWheelInterpolated.setProgress(1.0f);
                         break;
                 }
             }
@@ -68,12 +73,18 @@ public class MainActivity extends ActionBarActivity {
                 switch(position) {
                     case 0:
                         progressWheel.setBarColor(defaultBarColor);
+                        progressWheelInterpolated.setBarColor(defaultBarColor);
+                        progressWheelLinear.setBarColor(defaultBarColor);
                         break;
                     case 1:
                         progressWheel.setBarColor(Color.RED);
+                        progressWheelInterpolated.setBarColor(Color.RED);
+                        progressWheelLinear.setBarColor(Color.RED);
                         break;
                     case 2:
                         progressWheel.setBarColor(Color.MAGENTA);
+                        progressWheelInterpolated.setBarColor(Color.MAGENTA);
+                        progressWheelLinear.setBarColor(Color.MAGENTA);
                         break;
                 }
             }
@@ -91,12 +102,18 @@ public class MainActivity extends ActionBarActivity {
                 switch(position) {
                     case 0:
                         progressWheel.setRimColor(defaultWheelColor);
+                        progressWheelInterpolated.setRimColor(defaultWheelColor);
+                        progressWheelLinear.setRimColor(defaultWheelColor);
                         break;
                     case 1:
                         progressWheel.setRimColor(Color.LTGRAY);
+                        progressWheelInterpolated.setRimColor(Color.LTGRAY);
+                        progressWheelLinear.setRimColor(Color.LTGRAY);
                         break;
                     case 2:
                         progressWheel.setRimColor(Color.GRAY);
+                        progressWheelInterpolated.setRimColor(Color.GRAY);
+                        progressWheelLinear.setRimColor(Color.GRAY);
                         break;
                 }
             }

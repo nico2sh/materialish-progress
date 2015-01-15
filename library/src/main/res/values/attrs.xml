@@ -2,16 +2,16 @@
 <resources>
 
     <declare-styleable name="ProgressWheel">
-        <attr name="progressIndeterminate" format="boolean" />
-        <attr name="barColor" format="color" />
-        <attr name="rimColor" format="color" />
-        <attr name="rimWidth" format="dimension" />
-        <attr name="spinSpeed" format="float" />
-        <attr name="barSpinCycleTime" format="integer" />
-        <attr name="circleRadius" format="dimension" />
-        <attr name="fillRadius" format="boolean" />
-        <attr name="barWidth" format="dimension" />
-        <attr name="linearProgress" format="boolean" />
+        <attr name="matProg_progressIndeterminate" format="boolean" />
+        <attr name="matProg_barColor" format="color" />
+        <attr name="matProg_rimColor" format="color" />
+        <attr name="matProg_rimWidth" format="dimension" />
+        <attr name="matProg_spinSpeed" format="float" />
+        <attr name="matProg_barSpinCycleTime" format="integer" />
+        <attr name="matProg_circleRadius" format="dimension" />
+        <attr name="matProg_fillRadius" format="boolean" />
+        <attr name="matProg_barWidth" format="dimension" />
+        <attr name="matProg_linearProgress" format="boolean" />
     </declare-styleable>
 
 </resources>
