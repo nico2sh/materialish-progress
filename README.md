@@ -22,7 +22,7 @@ You can also have a linear determinate progress mode if you don't like the anima
 
 You can copy the ProgressWheel.java (in the library module) and the attrs.xml content into your project. Or you can get the binaries from Maven central by adding in your build.gradle dependencies:
 
-```compile 'com.pnikosis:materialish-progress:1.3'```
+```compile 'com.pnikosis:materialish-progress:1.4'```
 
 ## Usage
 
@@ -107,6 +107,7 @@ In the xml definition, besides the ```fillRadius``` property, you can set:
 * 1.1 The default speed is closer to the default progress wheel in Lollipop. Removed unused icons.
 * 1.2 Interpolated determinate progress, a new option to set a linear progress (which was the default before)
 * 1.3 Added a prefix to the attributes to avoid collisions, new callback called when the progress changes in the determinate wheel.
+* 1.4 Improved callback, now receives a double value, which is rounded to two decimals
 
 License
 -------
