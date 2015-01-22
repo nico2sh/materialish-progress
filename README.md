@@ -35,8 +35,8 @@ You can create your own progress wheel in xml like this (remeber to add ```xmlns
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        wheel:barColor="#5588FF"
-        wheel:progressIndeterminate="true" />
+        wheel:matProg_barColor="#5588FF"
+        wheel:matProg_progressIndeterminate="true" />
 ```
 
 Or in code:
