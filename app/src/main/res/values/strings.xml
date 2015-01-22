@@ -9,6 +9,7 @@
     <string name="interpolated">Interpolated progress:</string>
     <string name="linear">Linear progress:</string>
     <string-array name="progress_value_options">
+        <item>Cycle between 0% and 100%</item>
         <item>0%</item>
         <item>10%</item>
         <item>25%</item>

@@ -10,20 +10,33 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import java.text.DecimalFormat;
+
 
 public class MainActivity extends ActionBarActivity {
+
+    private ProgressWheel progressWheel;
+    private ProgressWheel progressWheelInterpolated;
+    private ProgressWheel progressWheelLinear;
+
+    private TextView interpolatedValue;
+    private TextView linearValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ProgressWheel progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
-        final ProgressWheel progressWheelInterpolated = (ProgressWheel) findViewById(R.id.interpolated);
-        final ProgressWheel progressWheelLinear = (ProgressWheel) findViewById(R.id.linear);
+        progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        progressWheelInterpolated = (ProgressWheel) findViewById(R.id.interpolated);
+        progressWheelLinear = (ProgressWheel) findViewById(R.id.linear);
+
+        interpolatedValue = (TextView) findViewById(R.id.interpolatedValue);
+        linearValue = (TextView) findViewById(R.id.linearValue);
 
         Spinner spinnerOptions = (Spinner) findViewById(R.id.spinner_options);
         spinnerOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -33,26 +46,50 @@ public class MainActivity extends ActionBarActivity {
                     case 0:
                         progressWheelLinear.setProgress(0.0f);
                         progressWheelInterpolated.setProgress(0.0f);
+
+                        progressWheelInterpolated.setCallback(new ProgressWheel.ProgressCallback() {
+                            @Override
+                            public void onProgressUpdate(double progress) {
+                                if(progress == 0) {
+                                    progressWheelInterpolated.setProgress(1.0f);
+                                } else if(progress == 1.0f) {
+                                    progressWheelInterpolated.setProgress(0.0f);
+                                }
+
+                                interpolatedValue.setText(String.format("%.2f", progress));
+                            }
+                        });
+
+                        progressWheelLinear.setCallback(new ProgressWheel.ProgressCallback() {
+                            @Override
+                            public void onProgressUpdate(double progress) {
+                                if(progress == 0) {
+                                    progressWheelLinear.setProgress(1.0f);
+                                } else if(progress == 1.0f) {
+                                    progressWheelLinear.setProgress(0.0f);
+                                }
+
+                                linearValue.setText(String.format("%.2f", progress));
+                            }
+                        });
                         break;
                     case 1:
-                        progressWheelLinear.setProgress(0.1f);
-                        progressWheelInterpolated.setProgress(0.1f);
+                        setProgress(0.0f);
                         break;
                     case 2:
-                        progressWheelLinear.setProgress(0.25f);
-                        progressWheelInterpolated.setProgress(0.25f);
+                        setProgress(0.1f);
                         break;
                     case 3:
-                        progressWheelLinear.setProgress(0.5f);
-                        progressWheelInterpolated.setProgress(0.5f);
+                        setProgress(0.25f);
                         break;
                     case 4:
-                        progressWheelLinear.setProgress(0.75f);
-                        progressWheelInterpolated.setProgress(0.75f);
+                        setProgress(0.5f);
                         break;
                     case 5:
-                        progressWheelLinear.setProgress(1.0f);
-                        progressWheelInterpolated.setProgress(1.0f);
+                        setProgress(0.75f);
+                        break;
+                    case 6:
+                        setProgress(1.0f);
                         break;
                 }
             }
@@ -125,7 +162,23 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    private void setProgress(float progress) {
+        progressWheelLinear.setCallback(new ProgressWheel.ProgressCallback() {
+            @Override
+            public void onProgressUpdate(double progress) {
+                linearValue.setText(String.format("%.2f", progress));
+            }
+        });
+        progressWheelInterpolated.setCallback(new ProgressWheel.ProgressCallback() {
+            @Override
+            public void onProgressUpdate(double progress) {
+                interpolatedValue.setText(String.format("%.2f", progress));
+            }
+        });
 
+        progressWheelLinear.setProgress(progress);
+        progressWheelInterpolated.setProgress(progress);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -11,6 +11,7 @@ import android.os.Parcelable;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -241,6 +242,10 @@ public class ProgressWheel extends View {
 
     public void setCallback(ProgressCallback progressCallback) {
         callback = progressCallback;
+
+        if (!isSpinning) {
+            runCallback();
+        }
     }
 
     //----------------------------------
@@ -384,7 +389,8 @@ public class ProgressWheel extends View {
 
     private void runCallback() {
         if(callback != null) {
-            callback.onProgressUpdate(mProgress);
+            double normalizedProgress = (double) Math.round(mProgress * 100 / 360.0f) / 100;
+            callback.onProgressUpdate(normalizedProgress);
         }
     }
 
@@ -399,10 +405,6 @@ public class ProgressWheel extends View {
             isSpinning = false;
 
             runCallback();
-        } else {
-            if(mProgress != progress) {
-                runCallback();
-            }
         }
 
         if(progress > 1.0f) {
@@ -696,6 +698,13 @@ public class ProgressWheel extends View {
     }
 
     public interface ProgressCallback {
-        public void onProgressUpdate(float progress);
+        /**
+         * Method to call when the progress reaches a value
+         * in order to avoid float precision issues, the progress
+         * is rounded to a long with two decimals
+         *
+         * @param progress a double value between 0.00 and 1.00 both included
+         */
+        public void onProgressUpdate(double progress);
     }
 }
