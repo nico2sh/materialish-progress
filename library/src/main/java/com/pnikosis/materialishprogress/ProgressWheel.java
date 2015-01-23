@@ -389,7 +389,7 @@ public class ProgressWheel extends View {
 
     private void runCallback() {
         if(callback != null) {
-            double normalizedProgress = (double) Math.round(mProgress * 100 / 360.0f) / 100;
+            float normalizedProgress = (float) Math.round(mProgress * 100 / 360.0f) / 100;
             callback.onProgressUpdate(normalizedProgress);
         }
     }
@@ -705,6 +705,6 @@ public class ProgressWheel extends View {
          *
          * @param progress a double value between 0.00 and 1.00 both included
          */
-        public void onProgressUpdate(double progress);
+        public void onProgressUpdate(float progress);
     }
 }

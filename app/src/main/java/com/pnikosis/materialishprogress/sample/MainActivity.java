@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
                         progressWheelInterpolated.setCallback(new ProgressWheel.ProgressCallback() {
                             @Override
-                            public void onProgressUpdate(double progress) {
+                            public void onProgressUpdate(float progress) {
                                 if(progress == 0) {
                                     progressWheelInterpolated.setProgress(1.0f);
                                 } else if(progress == 1.0f) {
@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
 
                         progressWheelLinear.setCallback(new ProgressWheel.ProgressCallback() {
                             @Override
-                            public void onProgressUpdate(double progress) {
+                            public void onProgressUpdate(float progress) {
                                 if(progress == 0) {
                                     progressWheelLinear.setProgress(1.0f);
                                 } else if(progress == 1.0f) {
@@ -165,13 +165,13 @@ public class MainActivity extends ActionBarActivity {
     private void setProgress(float progress) {
         progressWheelLinear.setCallback(new ProgressWheel.ProgressCallback() {
             @Override
-            public void onProgressUpdate(double progress) {
+            public void onProgressUpdate(float progress) {
                 linearValue.setText(String.format("%.2f", progress));
             }
         });
         progressWheelInterpolated.setCallback(new ProgressWheel.ProgressCallback() {
             @Override
-            public void onProgressUpdate(double progress) {
+            public void onProgressUpdate(float progress) {
                 interpolatedValue.setText(String.format("%.2f", progress));
             }
         });
