@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Material-ish Progress Wheel</string>
+    <string name="app_name">Material-ish Progress Demo</string>
     <string name="main_text">Options:</string>
     <string name="option_progress">Progress:</string>
     <string name="option_bar_color">Bar color:</string>
     <string name="option_wheel_color">Wheel color:</string>
     <string name="interpolated">Interpolated progress:</string>
     <string name="linear">Linear progress:</string>
+    <string name="ok">OK</string>
+    <string name="about">About</string>
+    <string name="about_text">This app is for demonstrate the Material-ish progress wheel library, which provides a Material-style progress wheel compatible back to API 9. You can have indeterminate and determinate versions of the progress wheel, the later with a linear animation or a interpolated one like in the guidelines.\n\nRefer to the Github project page for more info at https://github.com/pnikosis/materialish-progress. </string>
     <string-array name="progress_value_options">
         <item>Cycle between 0% and 100%</item>
         <item>0%</item>

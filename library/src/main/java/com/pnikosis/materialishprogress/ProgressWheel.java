@@ -277,6 +277,11 @@ public class ProgressWheel extends View {
             float from = mProgress - 90;
             float length = barLength + barExtraLength;
 
+            if(isInEditMode()) {
+                from = 0;
+                length = 135;
+            }
+
             canvas.drawArc(circleBounds, from, length, false,
                     barPaint);
         } else {
@@ -303,6 +308,10 @@ public class ProgressWheel extends View {
                 float factor = 2.0f;
                 offset = (float) (1.0f - Math.pow(1.0f - mProgress / 360.0f, 2.0f * factor)) * 360.0f;
                 progress = (float) (1.0f - Math.pow(1.0f - mProgress / 360.0f, factor)) * 360.0f;;
+            }
+
+            if(isInEditMode()) {
+                progress = 360;
             }
 
             canvas.drawArc(circleBounds, offset - 90, progress, false, barPaint);
