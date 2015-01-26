@@ -2,6 +2,10 @@
 
 A material style progress wheel compatible with 2.3
 
+Try the demo app on Google Play:
+
+[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.pnikosis.materialishprogress.sample)
+
 I needed to keep a consistent (or as close as possible) look in an app across all Android Versions. The progress wheel is quite cool in Lollipop, and pretty horrible on Gingerbread.
 
 So I created this. This view uses [Progress Wheel](https://github.com/Todd-Davies/ProgressWheel) as a base, but has been almost completely rewritten (the original view uses handlers for updating the wheel).
