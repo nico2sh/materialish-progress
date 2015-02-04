@@ -111,7 +111,7 @@ In the xml definition, besides the ```fillRadius``` property, you can set:
 * 1.1 The default speed is closer to the default progress wheel in Lollipop. Removed unused icons.
 * 1.2 Interpolated determinate progress, a new option to set a linear progress (which was the default before)
 * 1.3 Added a prefix to the attributes to avoid collisions, new callback called when the progress changes in the determinate wheel.
-* 1.4 Improved callback, now receives a double value, which is rounded to two decimals
+* 1.4 Improved callback, now receives a value which is rounded to two decimals
 
 License
 -------
