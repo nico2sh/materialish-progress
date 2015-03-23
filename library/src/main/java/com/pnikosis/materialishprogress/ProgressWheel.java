@@ -9,9 +9,9 @@ import android.graphics.RectF;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -27,6 +27,11 @@ import android.view.View;
 public class ProgressWheel extends View {
     private static final String TAG = ProgressWheel.class.getSimpleName();
 
+    /**
+     * *********
+     * DEFAULTS *
+     * **********
+     */
     //Sizes (with defaults in DP)
     private int circleRadius = 28;
     private int barWidth = 4;
@@ -209,9 +214,9 @@ public class ProgressWheel extends View {
     private void parseAttributes(TypedArray a) {
         // We transform the default values from DIP to pixels
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        barWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, barWidth, metrics);
-        rimWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rimWidth, metrics);
-        circleRadius = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, circleRadius, metrics);
+        barWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, barWidth, metrics);
+        rimWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rimWidth, metrics);
+        circleRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, circleRadius, metrics);
 
         circleRadius = (int) a.getDimension(R.styleable.ProgressWheel_matProg_circleRadius, circleRadius);
 
@@ -271,13 +276,18 @@ public class ProgressWheel extends View {
             mProgress += deltaNormalized;
             if (mProgress > 360) {
                 mProgress -= 360f;
+
+                // A full turn has been completed
+                // we run the callback with -1 in case we want to
+                // do something, like changing the color
+                runCallback(-1.0f);
             }
             lastTimeAnimated = SystemClock.uptimeMillis();
 
             float from = mProgress - 90;
             float length = barLength + barExtraLength;
 
-            if(isInEditMode()) {
+            if (isInEditMode()) {
                 from = 0;
                 length = 135;
             }
@@ -298,19 +308,19 @@ public class ProgressWheel extends View {
                 lastTimeAnimated = SystemClock.uptimeMillis();
             }
 
-            if(oldProgress != mProgress) {
+            if (oldProgress != mProgress) {
                 runCallback();
             }
 
             float offset = 0.0f;
             float progress = mProgress;
-            if(!linearProgress) {
+            if (!linearProgress) {
                 float factor = 2.0f;
                 offset = (float) (1.0f - Math.pow(1.0f - mProgress / 360.0f, 2.0f * factor)) * 360.0f;
-                progress = (float) (1.0f - Math.pow(1.0f - mProgress / 360.0f, factor)) * 360.0f;;
+                progress = (float) (1.0f - Math.pow(1.0f - mProgress / 360.0f, factor)) * 360.0f;
             }
 
-            if(isInEditMode()) {
+            if (isInEditMode()) {
                 progress = 360;
             }
 
@@ -323,10 +333,10 @@ public class ProgressWheel extends View {
     }
 
     @Override
-    protected void onVisibilityChanged(View changedView, int visibility) {
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
 
-        if(visibility == VISIBLE) {
+        if (visibility == VISIBLE) {
             lastTimeAnimated = SystemClock.uptimeMillis();
         }
     }
@@ -340,7 +350,7 @@ public class ProgressWheel extends View {
                 // (growing or shrinking)
                 timeStartGrowing -= barSpinCycleTime;
                 //if(barGrowingFromFront) {
-                    pausedTimeWithoutGrowing = 0;
+                pausedTimeWithoutGrowing = 0;
                 //}
                 barGrowingFromFront = !barGrowingFromFront;
             }
@@ -396,8 +406,14 @@ public class ProgressWheel extends View {
         invalidate();
     }
 
+    private void runCallback(float value) {
+        if (callback != null) {
+            callback.onProgressUpdate(value);
+        }
+    }
+
     private void runCallback() {
-        if(callback != null) {
+        if (callback != null) {
             float normalizedProgress = (float) Math.round(mProgress * 100 / 360.0f) / 100;
             callback.onProgressUpdate(normalizedProgress);
         }
@@ -406,6 +422,7 @@ public class ProgressWheel extends View {
     /**
      * Set the progress to a specific value,
      * the bar will smoothly animate until that value
+     *
      * @param progress the progress between 0 and 1
      */
     public void setProgress(float progress) {
@@ -416,9 +433,9 @@ public class ProgressWheel extends View {
             runCallback();
         }
 
-        if(progress > 1.0f) {
+        if (progress > 1.0f) {
             progress -= 1.0f;
-        } else if(progress < 0) {
+        } else if (progress < 0) {
             progress = 0;
         }
 
@@ -441,6 +458,7 @@ public class ProgressWheel extends View {
     /**
      * Set the progress to a specific value,
      * the bar will be set instantly to that value
+     *
      * @param progress the progress between 0 and 1
      */
     public void setInstantProgress(float progress) {
@@ -449,9 +467,9 @@ public class ProgressWheel extends View {
             isSpinning = false;
         }
 
-        if(progress > 1.0f) {
+        if (progress > 1.0f) {
             progress -= 1.0f;
-        } else if(progress < 0) {
+        } else if (progress < 0) {
             progress = 0;
         }
 
@@ -490,12 +508,12 @@ public class ProgressWheel extends View {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if(!(state instanceof WheelSavedState)) {
+        if (!(state instanceof WheelSavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }
 
-        WheelSavedState ss = (WheelSavedState)state;
+        WheelSavedState ss = (WheelSavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
 
         this.mProgress = ss.mProgress;
@@ -509,6 +527,8 @@ public class ProgressWheel extends View {
         this.circleRadius = ss.circleRadius;
         this.linearProgress = ss.linearProgress;
         this.fillRadius = ss.fillRadius;
+
+        this.lastTimeAnimated = SystemClock.uptimeMillis();
     }
 
     //----------------------------------
@@ -525,6 +545,7 @@ public class ProgressWheel extends View {
 
     /**
      * Sets the determinate progress mode
+     *
      * @param isLinear if the progress should increase linearly
      */
     public void setLinearProgress(boolean isLinear) {
@@ -543,6 +564,7 @@ public class ProgressWheel extends View {
 
     /**
      * Sets the radius of the wheel
+     *
      * @param circleRadius the expected radius, in pixels
      */
     public void setCircleRadius(int circleRadius) {
@@ -561,6 +583,7 @@ public class ProgressWheel extends View {
 
     /**
      * Sets the width of the spinning bar
+     *
      * @param barWidth the spinning bar width in pixels
      */
     public void setBarWidth(int barWidth) {
@@ -579,6 +602,7 @@ public class ProgressWheel extends View {
 
     /**
      * Sets the color of the spinning bar
+     *
      * @param barColor The spinning bar color
      */
     public void setBarColor(int barColor) {
@@ -598,6 +622,7 @@ public class ProgressWheel extends View {
 
     /**
      * Sets the color of the wheel's contour
+     *
      * @param rimColor the color for the wheel
      */
     public void setRimColor(int rimColor) {
@@ -637,6 +662,7 @@ public class ProgressWheel extends View {
 
     /**
      * Sets the width of the wheel's contour
+     *
      * @param rimWidth the width in pixels
      */
     public void setRimWidth(int rimWidth) {
@@ -700,6 +726,7 @@ public class ProgressWheel extends View {
                     public WheelSavedState createFromParcel(Parcel in) {
                         return new WheelSavedState(in);
                     }
+
                     public WheelSavedState[] newArray(int size) {
                         return new WheelSavedState[size];
                     }

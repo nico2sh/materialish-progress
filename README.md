@@ -54,7 +54,7 @@ wheel.setBarColor(Color.BLUE);
 
 ### Callback
 
-Use ```setCallback(ProgressCallback)``` to assign a callback that will be called each time the progress changes. This way you can update a value on the progress alongside with the progress animation, or execute an action once the progress reaches a certain value.
+Use ```setCallback(ProgressCallback)``` to assign a callback that will be called each time the progress changes. This way you can update a value on the progress alongside with the progress animation, or execute an action once the progress reaches a certain value. in the indeterminatge wheel, the callback is called with a value of -1.0f every time the animation cycle finishes (when the wheel shrinks back to its smaller size).
 
 ### Indeterminate wheel
 
@@ -112,6 +112,7 @@ In the xml definition, besides the ```fillRadius``` property, you can set:
 * 1.2 Interpolated determinate progress, a new option to set a linear progress (which was the default before)
 * 1.3 Added a prefix to the attributes to avoid collisions, new callback called when the progress changes in the determinate wheel.
 * 1.4 Improved callback, now receives a value which is rounded to two decimals
+* 1.5 Callback is called with a value of -1.0f in the indeterminate wheel every time the animation cycle finishes, updated Gradle and support libraries
 
 License
 -------
