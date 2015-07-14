@@ -434,9 +434,9 @@ public class ProgressWheel extends View {
         }
 
         if (progress > 1.0f) {
-            progress -= 1.0f;
-        } else if (progress < 0) {
-            progress = 0;
+            progress = 1.0f;
+        } else if (progress < 0.0f) {
+            progress = 0.0f;
         }
 
         if (progress == mTargetProgress) {
