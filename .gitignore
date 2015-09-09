@@ -40,3 +40,5 @@ target
 Thumbs.db
 *.swp
 *.bak
+
+maven_push.gradle
