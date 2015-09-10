@@ -26,7 +26,7 @@ You can also have a linear determinate progress mode if you don't like the anima
 
 You can copy the ProgressWheel.java (in the library module) and the attrs.xml content into your project. Or you can get the binaries from Maven central by adding in your build.gradle dependencies:
 
-```compile 'com.pnikosis:materialish-progress:1.5'```
+```compile 'com.pnikosis:materialish-progress:1.7'```
 
 ## Usage
 
@@ -113,6 +113,7 @@ In the xml definition, besides the ```fillRadius``` property, you can set:
 * 1.3 Added a prefix to the attributes to avoid collisions, new callback called when the progress changes in the determinate wheel.
 * 1.4 Improved callback, now receives a value which is rounded to two decimals
 * 1.5 Callback is called with a value of -1.0f in the indeterminate wheel every time the animation cycle finishes, updated Gradle and support libraries
+* 1.7 Animations are disabled when the system preferences have disabled animations
 
 License
 -------
