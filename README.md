@@ -1,3 +1,5 @@
+[![](https://img.shields.io/badge/Methods and size-106 | 12 KB-e91e63.svg)](http://www.methodscount.com/?lib=com.pnikosis%3Amaterialish-progress%3A1.7)
+
 # Material-ish Progress
 
 A material style progress wheel compatible with 2.3
