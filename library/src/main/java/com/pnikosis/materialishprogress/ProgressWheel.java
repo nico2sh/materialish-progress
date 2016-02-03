@@ -206,8 +206,8 @@ public class ProgressWheel extends View {
           new RectF(xOffset + barWidth, yOffset + barWidth, xOffset + circleDiameter - barWidth,
               yOffset + circleDiameter - barWidth);
     } else {
-      circleBounds = new RectF(paddingLeft + barWidth, paddingTop + barWidth,
-          layout_width - paddingRight - barWidth, layout_height - paddingBottom - barWidth);
+      circleBounds = new RectF(paddingLeft + barWidth/2, paddingTop + barWidth/2,
+          layout_width - paddingRight - barWidth/2, layout_height - paddingBottom - barWidth/2);
     }
   }
 
