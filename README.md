@@ -28,7 +28,7 @@ You can also have a linear determinate progress mode if you don't like the anima
 
 You can copy the ProgressWheel.java (in the library module) and the attrs.xml content into your project. Or you can get the binaries from Maven central by adding in your build.gradle dependencies:
 
-```compile 'com.pnikosis:materialish-progress:1.7'```
+```implementation 'com.pnikosis:materialish-progress:1.7'```
 
 ## Usage
 
