@@ -175,6 +175,7 @@ public class ProgressWheel extends View {
     barPaint.setAntiAlias(true);
     barPaint.setStyle(Style.STROKE);
     barPaint.setStrokeWidth(barWidth);
+    barPaint.setStrokeCap(Paint.Cap.ROUND);
 
     rimPaint.setColor(rimColor);
     rimPaint.setAntiAlias(true);
