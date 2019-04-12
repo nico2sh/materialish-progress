@@ -65,6 +65,8 @@ public class ProgressWheel extends View {
   private long lastTimeAnimated = 0;
 
   private boolean linearProgress;
+  
+  private boolean barRounded;
 
   private float mProgress = 0.0f;
   private float mTargetProgress = 0.0f;
@@ -175,7 +177,10 @@ public class ProgressWheel extends View {
     barPaint.setAntiAlias(true);
     barPaint.setStyle(Style.STROKE);
     barPaint.setStrokeWidth(barWidth);
-    barPaint.setStrokeCap(Paint.Cap.ROUND);
+    
+    if(barRounded){
+      barPaint.setStrokeCap(Paint.Cap.ROUND);
+    }
 
     rimPaint.setColor(rimColor);
     rimPaint.setAntiAlias(true);
@@ -244,6 +249,8 @@ public class ProgressWheel extends View {
     barColor = a.getColor(R.styleable.ProgressWheel_matProg_barColor, barColor);
 
     rimColor = a.getColor(R.styleable.ProgressWheel_matProg_rimColor, rimColor);
+    
+    barRounded = a.getBoolean(R.styleable.ProgressWheel_matProg_rounded, false);
 
     linearProgress = a.getBoolean(R.styleable.ProgressWheel_matProg_linearProgress, false);
 
@@ -681,6 +688,22 @@ public class ProgressWheel extends View {
     if (!isSpinning) {
       invalidate();
     }
+  }
+  
+  /**
+   * @return the current rounded status of the bar
+   */
+  public boolean getBarRounded(){
+    return this.barRounded;
+  }
+  
+  /**
+   * Sets the rounded status of the bar
+   *
+   * @param barRounded the rounded status
+   */
+  public void setBarRounded(boolean barRounded){
+    this.barRounded = barRounded;
   }
 
   public interface ProgressCallback {
