@@ -12,6 +12,7 @@
         <attr name="matProg_fillRadius" format="boolean" />
         <attr name="matProg_barWidth" format="dimension" />
         <attr name="matProg_linearProgress" format="boolean" />
+        <attr name="matProg_barRounded" format="boolean" />
     </declare-styleable>
 
 </resources>
