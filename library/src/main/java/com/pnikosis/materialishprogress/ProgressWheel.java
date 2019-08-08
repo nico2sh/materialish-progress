@@ -250,7 +250,7 @@ public class ProgressWheel extends View {
 
     rimColor = a.getColor(R.styleable.ProgressWheel_matProg_rimColor, rimColor);
     
-    barRounded = a.getBoolean(R.styleable.ProgressWheel_matProg_rounded, false);
+    barRounded = a.getBoolean(R.styleable.ProgressWheel_matProg_barRounded, false);
 
     linearProgress = a.getBoolean(R.styleable.ProgressWheel_matProg_linearProgress, false);
 
