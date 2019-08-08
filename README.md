@@ -32,7 +32,7 @@ You can copy the ProgressWheel.java (in the library module) and the attrs.xml co
 
 ## Usage
 
-You can create your own progress wheel in xml like this (remeber to add ```xmlns:wheel="http://schemas.android.com/apk/res-auto"```):
+You can create your own progress wheel in xml like this (remember to add ```xmlns:wheel="http://schemas.android.com/apk/res-auto"```):
 
 ```xml
 <com.pnikosis.materialishprogress.ProgressWheel
