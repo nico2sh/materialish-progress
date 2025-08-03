@@ -1,4 +1,5 @@
-[![](https://img.shields.io/badge/Methods and size-106 | 12 KB-e91e63.svg)](http://www.methodscount.com/?lib=com.pnikosis%3Amaterialish-progress%3A1.7)
+*Unmantained*
+Keeping for the record, there's no need today to support such old versions of Android, I think.
 
 # Material-ish Progress
 
